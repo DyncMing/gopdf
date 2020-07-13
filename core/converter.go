@@ -261,7 +261,7 @@ func (convert *Converter) LineColor(line string, elements []string) {
 }
 
 func (convert *Converter) BackgroundColor(line string, elements []string) {
-	checkLength(line, elements, 9)
+	checkLength(line, elements, 12)
 
 	//convert.pdf.SetLineWidth(0)               // 宽带最小
 	convert.pdf.SetStrokeColor(255, 255, 255) // 白色线条
@@ -276,9 +276,12 @@ func (convert *Converter) BackgroundColor(line string, elements []string) {
 		parseFloatPanic(elements[4], line)*convert.unit, "F")
 
 	convert.pdf.SetFillColor(0, 0, 0) // 颜色恢复
-	convert.pdf.SetStrokeColor(0, 0, 0)
+	convert.pdf.SetStrokeColor(uint8(parseIntPanic(elements[9], line)),
+		uint8(parseIntPanic(elements[10], line)),
+		uint8(parseIntPanic(elements[11], line)))
 
 	convert.pdf.SetLineType("solid")
+	convert.pdf.SetLineWidth(convert.linew * convert.unit)
 
 	x := parseFloatPanic(elements[1], line) * convert.unit
 	y := parseFloatPanic(elements[2], line) * convert.unit
